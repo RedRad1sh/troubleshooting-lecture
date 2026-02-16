@@ -31,6 +31,8 @@ jobs:
           java-version: 21
       - name: Maven Test
         run: mvn clean test jacoco:report coveralls:report
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       #- name: Maven Package
       # run: mvn -B clean package -DskipTests
       - name: Coveralls GitHub Action
