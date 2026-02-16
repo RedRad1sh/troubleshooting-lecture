@@ -31,8 +31,8 @@ jobs:
           java-version: 21
       - name: Maven Test
         run: mvn -B test
-      - name: Maven Package
-        run: mvn -B clean package -DskipTests
+      #- name: Maven Package
+      # run: mvn -B clean package -DskipTests
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.3.6
       - name: Run a multi-line script
