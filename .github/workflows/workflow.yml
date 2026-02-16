@@ -30,7 +30,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Maven Test
-        run: mvn -B test
+        run: mvn clean test jacoco:report coveralls:report
       #- name: Maven Package
       # run: mvn -B clean package -DskipTests
       - name: Coveralls GitHub Action
