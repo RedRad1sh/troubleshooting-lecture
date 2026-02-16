@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
  */
 class InfoServiceImplTest {
 
-    @Testb
+    @Test
     void getInfo() {
     }
 
