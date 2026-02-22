@@ -1,6 +1,5 @@
 package dev.nkucherenko.troubleshooting;
 
-import dev.nkucherenko.troubleshooting.service.InfoService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
