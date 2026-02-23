@@ -2,6 +2,7 @@ package dev.nkucherenko.troubleshooting.service.impl;
 
 import dev.nkucherenko.troubleshooting.dto.EmployeeDto;
 import dev.nkucherenko.troubleshooting.mapper.EmployeeMapper;
+import dev.nkucherenko.troubleshooting.masking.MaskingComponent;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EmployeeServiceAltImpl extends EmployeeServiceImpl {
-    public EmployeeServiceAltImpl(EmployeeMapper employeeMapper) {
-        super(employeeMapper);
+    public EmployeeServiceAltImpl(EmployeeMapper employeeMapper, MaskingComponent maskingComponent) {
+        super(maskingComponent, employeeMapper);
     }
 
     @Override

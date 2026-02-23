@@ -1,8 +1,10 @@
 package dev.nkucherenko.troubleshooting.service.impl;
 
+import dev.nkucherenko.troubleshooting.config.MaskingConfig;
 import dev.nkucherenko.troubleshooting.dto.Employee;
 import dev.nkucherenko.troubleshooting.dto.EmployeeDto;
 import dev.nkucherenko.troubleshooting.mapper.EmployeeMapper;
+import dev.nkucherenko.troubleshooting.masking.MaskingComponent;
 import dev.nkucherenko.troubleshooting.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public static final String EMPLOYEE_NOT_EXISTS_ERROR = "Сотрудник отсутствует в базе данных, id: {}";
     private final Map<String, Employee> employeeMap = new HashMap<>();
 
+    private final MaskingComponent maskingComponent;
     private final EmployeeMapper employeeMapper;
 
     @Override
@@ -42,8 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         String generatedId = UUID.randomUUID().toString();
         Employee employee = employeeMapper.toEmployee(employeeDto);
         employee.setId(generatedId);
-        Employee createdEmployee = employeeMap.put(generatedId, employeeMapper.toEmployee(employeeDto));
-        log.info("Сотрудник был добавлен, employee: {}", createdEmployee);
+        Employee createdEmployee = employeeMapper.toEmployee(employeeDto);
+        employeeMap.put(generatedId, createdEmployee);
+        log.info("Сотрудник был добавлен, employee: {}",
+            maskingComponent.maskInfo(createdEmployee.toString()));
         log.trace("<< createEmployee");
         return employeeMapper.toEmployeeDto(employee);
     }
@@ -55,8 +60,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error(EMPLOYEE_NOT_EXISTS_ERROR, id);
             throw new IllegalArgumentException();
         }
-        employeeMap.put(id, employeeMapper.toEmployee(employeeDto));
-        log.info("Информация была отредактирована, employee: {}", employeeDto);
+        Employee updatedEmployee = employeeMap.put(id, employeeMapper.toEmployee(employeeDto));
+        log.info("Информация была отредактирована, employee: {}",
+            maskingComponent.maskInfo(updatedEmployee.toString()));
         log.trace("<< editEmployee");
         return employeeDto;
     }

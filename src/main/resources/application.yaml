@@ -3,6 +3,11 @@ logging:
     root: INFO
     dev.nkucherenko.troubleshooting: DEBUG
 
+masking:
+  replaceList:
+    - regex: "(name=')(.{1}).+?(')"
+      replace: "$1$2***$3"
+
 management:
   endpoints:
     web:

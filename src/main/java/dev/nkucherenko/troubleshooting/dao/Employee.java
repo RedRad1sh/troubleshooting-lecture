@@ -24,6 +24,16 @@ public class Employee {
     private String department;
 
     @Override
+    public String toString() {
+        return "Employee{" +
+               "id='" + id + '\'' +
+               ", name='" + name + '\'' +
+               ", position='" + position + '\'' +
+               ", department='" + department + '\'' +
+               '}';
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
