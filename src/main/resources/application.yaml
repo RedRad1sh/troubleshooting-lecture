@@ -1,15 +1,27 @@
 logging:
+  pattern:
+    level: "%5p"
   level:
     root: INFO
     dev.nkucherenko.troubleshooting: DEBUG
-
+    dev.nkucherenko.troubleshooting.service.impl.EmployeeServiceImpl: TRACE
 masking:
   replaceList:
     - regex: "(name=')(.{1}).+?(')"
       replace: "$1$2***$3"
 
+spring:
+  application:
+    name: troubleshooting-app
+
 management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
   endpoints:
     web:
       exposure:
-        include: health,metrics,loggers,env,beans,prometheus
+        include: "*"

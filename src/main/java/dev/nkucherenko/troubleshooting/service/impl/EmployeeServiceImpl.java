@@ -1,6 +1,5 @@
 package dev.nkucherenko.troubleshooting.service.impl;
 
-import dev.nkucherenko.troubleshooting.config.MaskingConfig;
 import dev.nkucherenko.troubleshooting.dto.Employee;
 import dev.nkucherenko.troubleshooting.dto.EmployeeDto;
 import dev.nkucherenko.troubleshooting.mapper.EmployeeMapper;
@@ -30,11 +29,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployee(String id) {
         log.trace(">> getEmployee");
+        log.debug("Входные параметры: id: {}", id);
         if (!employeeMap.containsKey(id)) {
             log.error(EMPLOYEE_NOT_EXISTS_ERROR, id);
             throw new IllegalArgumentException();
         }
         Employee employee = employeeMap.get(id);
+        log.info("Найден сотрудник, employee: {}",
+            maskingComponent.maskInfo(employee.toString()));
         log.trace("<< getEmployee");
         return employeeMapper.toEmployeeDto(employee);
     }
@@ -42,7 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         log.trace(">> createEmployee");
+        log.debug("Входные параметры: employeeDto: {}", employeeDto);
+        if (employeeDto.department() == null) {
+            log.warn("Не заполнено подразделение сотрудника");
+        }
         String generatedId = UUID.randomUUID().toString();
+        log.debug("Сгенерирован id сотрудника: {}", generatedId);
         Employee employee = employeeMapper.toEmployee(employeeDto);
         employee.setId(generatedId);
         Employee createdEmployee = employeeMapper.toEmployee(employeeDto);
@@ -56,6 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto editEmployee(String id, EmployeeDto employeeDto) {
         log.trace(">> editEmployee");
+        log.debug("Входные параметры: id: {}, employeeDto: {}", id, employeeDto);
         if (!employeeMap.containsKey(id)) {
             log.error(EMPLOYEE_NOT_EXISTS_ERROR, id);
             throw new IllegalArgumentException();
@@ -70,6 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(String id) {
         log.trace(">> deleteEmployee");
+        log.debug("Входные параметры: id: {}", id);
         if (!employeeMap.containsKey(id)) {
             log.error(EMPLOYEE_NOT_EXISTS_ERROR, id);
             throw new IllegalArgumentException();

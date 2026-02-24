@@ -1,8 +1,10 @@
 package dev.nkucherenko.troubleshooting.service.impl;
 
+import dev.nkucherenko.troubleshooting.config.MaskingConfig;
 import dev.nkucherenko.troubleshooting.dto.EmployeeDto;
 import dev.nkucherenko.troubleshooting.mapper.EmployeeMapper;
 import dev.nkucherenko.troubleshooting.mapper.EmployeeMapperImpl;
+import dev.nkucherenko.troubleshooting.masking.MaskingComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +17,7 @@ import java.util.UUID;
  */
 class EmployeeServiceImplTest {
 
-    private final EmployeeServiceImpl employeeService = new EmployeeServiceImpl(new EmployeeMapperImpl());
+    private final EmployeeServiceImpl employeeService = new EmployeeServiceImpl(new MaskingComponent(new MaskingConfig()), new EmployeeMapperImpl());
 
     private EmployeeDto testEmployee;
 

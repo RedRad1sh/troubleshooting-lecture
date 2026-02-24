@@ -1,0 +1,40 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}){cyan} %clr(${LOG_THREAD_PATTERN:-%X{traceId:-}/%X{spanId:-}}){yellow} %m%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>127.0.0.1:5044</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "app_name": "troubleshooting-app",
+                        "trace_id": "%X{traceId}",
+                        "span_id": "%X{spanId}"
+                        }
+                    </pattern>
+                </pattern>
+                <message/>
+                <loggerName/>
+                <threadName/>
+                <logLevel/>
+                <callerData/>
+                <stackTrace/>
+                <context/>
+                <mdc/>
+                <arguments/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="LOGSTASH"/>--> <!--Раскомментировать чтобы включить-->
+    </root>
+</configuration>
