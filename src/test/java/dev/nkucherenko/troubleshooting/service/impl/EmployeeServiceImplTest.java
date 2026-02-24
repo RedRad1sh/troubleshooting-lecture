@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,7 +18,7 @@ import java.util.UUID;
  */
 class EmployeeServiceImplTest {
 
-    private final EmployeeServiceImpl employeeService = new EmployeeServiceImpl(new MaskingComponent(new MaskingConfig()), new EmployeeMapperImpl());
+    private final EmployeeServiceImpl employeeService = new EmployeeServiceImpl(new MaskingComponent(new MaskingConfig(List.of())), new EmployeeMapperImpl());
 
     private EmployeeDto testEmployee;
 
